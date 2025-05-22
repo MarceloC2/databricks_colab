@@ -162,7 +162,8 @@ Se precisar de ajustes ou mais explicações, me avise! 🚀
 # Comparando Métodos
 
 O seu manual apresenta uma abordagem alternativa para o desafio de montagem do Azure Data Lake Gen2 no Databricks, substituindo o método de montagem (dbutils.fs.mount) por um fluxo de leitura/gravação via WASBS. Isso é útil para ambientes onde a montagem não é viável ou onde queremos mais controle sobre as operações de leitura/escrita.
-📌 Principais diferenças entre os métodos
+
+## 📌 Principais diferenças entre os métodos
 - Montagem (dbutils.fs.mount)
 - Cria um atalho permanente para acessar os arquivos do ADLS Gen2 no Databricks.
 - Permite reutilizar o caminho /mnt/... em vários notebooks.
@@ -171,7 +172,8 @@ O seu manual apresenta uma abordagem alternativa para o desafio de montagem do A
 - Não exige montagem, pois lê/escreve diretamente no Azure Blob Storage.
 - Usa o protocolo wasbs:// com Account Key, dispensando OAuth ou Managed Identity.
 - Necessário especificar o caminho completo do arquivo em cada operação.
-🔁 Alternativa para o desafio
+
+## 🔁 Alternativa para o desafio
 Seu método alternativo usa Apache Spark e Blob Storage API para manipular os arquivos diretamente. Aqui está como ele se encaixa no desafio:
 | Passo do desafio | Método alternativo | 
 | 1. Montar o Storage | Não monta, mas lê/escreve via wasbs:// | 
@@ -183,3 +185,5 @@ Seu método alternativo usa Apache Spark e Blob Storage API para manipular os ar
 
 
 📌 Vantagem do método alternativo: Ele pode funcionar sem a necessidade de montar o Storage no Databricks, permitindo maior flexibilidade.
+
+---
