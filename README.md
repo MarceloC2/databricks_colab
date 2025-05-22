@@ -197,7 +197,6 @@ Seu método alternativo usa Apache Spark e Blob Storage API para manipular os ar
 
 
 ## 📌 Vantagem do método alternativo: 
-E
-le pode funcionar sem a necessidade de montar o Storage no Databricks, permitindo maior flexibilidade.
+Ele pode funcionar sem a necessidade de montar o Storage no Databricks, permitindo maior flexibilidade.
 
 ---
