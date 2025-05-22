@@ -37,6 +37,7 @@ spark = SparkSession.builder \
 Explicação:
 - local[*]: Usa todos os núcleos disponíveis para processamento local.
 - config(...): Carrega pacotes necessários para acessar o Azure Blob Storage.
+
 ---
 
 ## 🔑 4. Configurando o Acesso ao Azure Blob Storage
@@ -52,6 +53,7 @@ account_key = "SUA_CHAVE_DE_ACESSO"
 spark.conf.set(f"fs.azure.account.key.{storage_account_name}.blob.core.windows.net", account_key)
 ```
 ⚠️ ATENÇÃO! Nunca compartilhe sua "account_key" publicamente
+
 ---
 
 ## 📂 5. Definindo o Caminho do Arquivo JSON no Azure
@@ -59,7 +61,9 @@ spark.conf.set(f"fs.azure.account.key.{storage_account_name}.blob.core.windows.n
 ```Python
 json_path = f"wasbs://{container_name}@{storage_account_name}.blob.core.windows.net/bronze/dados_brutos.json"
 ```
+
 O prefixo "wasbs://" indica que estamos acessando o Azure Blob Storage
+
 ---
 
 ## 📖 6. Tentando Ler o Arquivo JSON no Azure
@@ -91,6 +95,7 @@ with open(local_json_path, "wb") as f:
 df = spark.read.json(local_json_path)
 print("Arquivo JSON lido a partir do arquivo local.")
 ```
+
 ---
 
 ## 📊 8. Visualizando os Dados
@@ -100,6 +105,7 @@ df.show(5, truncate=False)
 df.printSchema()
 ```
 Isso exibe as primeiras 5 linhas e o schema das colunas.
+
 ---
 
 ## 💾 9. Convertendo para Parquet
@@ -110,6 +116,7 @@ df.write.mode("overwrite").parquet(local_parquet_path)
 print(f"Dados gravados localmente em: {local_parquet_path}")
 ```
 Parquet é um formato de armazenamento mais eficiente do que JSON.
+
 ---
 
 ## 🚀 10. Fazendo Upload dos Arquivos Parquet para o Azure
@@ -132,6 +139,7 @@ for root, dirs, files in os.walk(local_parquet_path):
 
 print("Upload concluído!")
 ```
+
 ---
 
 ## 📝 11. Listando os Arquivos no Blob Storage
@@ -141,6 +149,7 @@ for blob in blob_service_client.get_container_client(container_name).list_blobs(
     print(blob.name)
 ```
 Isso verifica se os arquivos foram enviados corretamente.❎
+
 ---
 
 ## 🎯 Conclusão
@@ -158,6 +167,7 @@ Esse documento servirá como um guia claro e direto para quem está começando! 
 Se precisar de ajustes ou mais explicações, me avise! 🚀
 ```
 ---
+---
 
 # Comparando Métodos
 
@@ -173,17 +183,21 @@ O seu manual apresenta uma abordagem alternativa para o desafio de montagem do A
 - Usa o protocolo wasbs:// com Account Key, dispensando OAuth ou Managed Identity.
 - Necessário especificar o caminho completo do arquivo em cada operação.
 
-## 🔁 Alternativa para o desafio
+## 🔁 Alternativa para montar Storage no Databricks
 Seu método alternativo usa Apache Spark e Blob Storage API para manipular os arquivos diretamente. Aqui está como ele se encaixa no desafio:
-| Passo do desafio | Método alternativo | 
-| 1. Montar o Storage | Não monta, mas lê/escreve via wasbs:// | 
-| 2. Verificar camadas | Lista arquivos via container_client.list_blobs() | 
-| 3. Validar existência do JSON | Usa spark.read.json(json_path) | 
-| 4. Ler o JSON com Spark | Usa df_imoveis = spark.read.json(json_path) | 
-| 5. Converter para Parquet | Usa df_imoveis.write.parquet(...) | 
-| 6. Exibir dados | Usa df_imoveis.show() | 
+
+| Passo do desafio           | Método alternativo                      |
+|----------------------------|-----------------------------------------|
+| Montar o Storage           | Não monta, mas lê/escreve via wasbs://  |
+| Verificar camadas          | Lista arquivos via container_client.list_blobs() |
+| Validar existência do JSON | Usa spark.read.json(json_path)         |
+| Ler o JSON com Spark       | Usa df_imoveis = spark.read.json(json_path) |
+| Converter para Parquet     | Usa df_imoveis.write.parquet(...)      |
+| Exibir dados               | Usa df_imoveis.show()                  |
 
 
-📌 Vantagem do método alternativo: Ele pode funcionar sem a necessidade de montar o Storage no Databricks, permitindo maior flexibilidade.
+## 📌 Vantagem do método alternativo: 
+E
+le pode funcionar sem a necessidade de montar o Storage no Databricks, permitindo maior flexibilidade.
 
 ---
