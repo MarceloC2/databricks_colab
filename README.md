@@ -234,3 +234,10 @@ Seu método alternativo usa Apache Spark e Blob Storage API para manipular os ar
 Ele pode funcionar sem a necessidade de montar o Storage no *Databricks*, permitindo maior flexibilidade.
 
 ---
+
+**inbound**
+
+_No Databricks, o caminho /mnt/dados/bronze/dados_brutos_imoveis.json faz referência a um armazenamento montado (mount point), permitindo acesso simplificado a um Azure Data Lake ou Blob Storage.
+Como o Databricks tem integração nativa com o Azure, ele permite montar diretórios diretamente, tornando o acesso mais direto.
+No Colab, não temos essa funcionalidade de montagem nativa, então usamos a leitura via WASBS ou o download local pelo azure-storage-blob.
+Para que o código reflita a lógica do Databricks e faça referência ao conceito de inbound, podemos simplesmente definir inbound_path como o caminho no Blob Storage e mantê-lo ao longo do código._
